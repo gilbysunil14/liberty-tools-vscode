@@ -50,7 +50,7 @@ export async function resolveRequirements(api: JavaExtensionAPI): Promise<Requir
     const requirementsData = api.javaRequirement;
     // Java check for LSP4Jakarta and LCLS support
     // Reuse the embedded JRE from 'redhat.java' if it exists and passes check
-    if (requirementsData && requirementsData.tooling_jre_version >= 17) {
+    if (requirementsData && requirementsData.tooling_jre_version >= 21) {
         return Promise.resolve(requirementsData);
     }
 
@@ -108,12 +108,12 @@ function readJavaHomeConfig(property: string): string|undefined {
     return (javaHome != null) ? javaHome : config.get<string>('java.home');
 }
 
-// Provided javaHome, parse major version and reject sub Java17
+// Provided javaHome, parse major version and reject sub Java21
 function checkJavaVersion(javaHome: string, promptDownload: boolean): Promise<number> {
     return new Promise((resolve, reject) => {
         cp.execFile(javaHome + '/bin/java', ['-version'], {}, (error, stdout, stderr) => {
             const javaVersion = parseMajorVersion(stderr);
-            if (javaVersion < 17) {
+            if (javaVersion < 21) {
                 if (promptDownload) {
                     openJDKDownload(reject, localize("check.java.runtime.version.outdated"));
                 } else {
