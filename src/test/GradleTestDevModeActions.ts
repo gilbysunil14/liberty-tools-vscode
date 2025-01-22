@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { InputBox, Workbench,SideBarView, ViewSection,EditorView,DefaultTreeItem, DebugView } from 'vscode-extension-tester';
+import { InputBox, Workbench,SideBarView, ViewSection,EditorView,DefaultTreeItem, DebugView, VSBrowser } from 'vscode-extension-tester';
 import * as utils from './utils/testUtils';
 import * as constants from './definitions/constants';
 import path = require('path');
@@ -43,19 +43,22 @@ it('Open dasboard shows items - Gradle', async () => {
 
 it('Start gradle project from liberty dashboard', async () => {      
     
-  
+  VSBrowser.instance.takeScreenshot('debug1');
   await utils.launchDashboardAction(item,constants.START_DASHBOARD_ACTION,constants.START_DASHBOARD_MAC_ACTION);  
   await utils.delay(30000);
   const serverStartStatus = await utils.checkTerminalforServerState(constants.SERVER_START_STRING);
+  VSBrowser.instance.takeScreenshot('debug2');
   if(!serverStartStatus)
     console.log("Server started message not found in the terminal");
   else
   {
+    VSBrowser.instance.takeScreenshot('debug3');
     console.log("Server succuessfully started");  
     await utils.launchDashboardAction(item, constants.STOP_DASHBOARD_ACTION, constants.STOP_DASHBOARD_MAC_ACTION);
     const serverStopStatus= await utils.checkTerminalforServerState(constants.SERVER_STOP_STRING);   
     if(!serverStopStatus){ 
     console.error("Server stopped message not found in the terminal");
+    VSBrowser.instance.takeScreenshot('debug4');
     }
     else
       console.log("Server stopped successfully");
@@ -67,7 +70,7 @@ it('Start gradle project from liberty dashboard', async () => {
 }).timeout(350000);
 
 it('Run tests for gradle project', async () => {  
-  
+  VSBrowser.instance.takeScreenshot('debug5');
   await utils.launchDashboardAction(item, constants.START_DASHBOARD_ACTION, constants.START_DASHBOARD_MAC_ACTION);
   await utils.delay(30000);  
   const serverStartStatus = await utils.checkTerminalforServerState(constants.SERVER_START_STRING);
@@ -76,6 +79,7 @@ it('Run tests for gradle project', async () => {
     console.log("Server started message not found in the terminal");
   else
   {
+    VSBrowser.instance.takeScreenshot('debug6');
     console.log("Server succuessfully started");  
     await utils.launchDashboardAction(item,constants.RUNTEST_DASHBOARD_ACTION,constants.RUNTEST_DASHBOARD_MAC_ACTION);    
     const testStatus = await utils.checkTestStatus(constants.GRADLE_TEST_RUN_STRING);        
