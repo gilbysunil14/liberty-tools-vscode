@@ -2,6 +2,7 @@ import { TextEditor, EditorView, VSBrowser, By } from 'vscode-extension-tester';
 import * as utils from './utils/testUtils';
 import * as path from 'path';
 import * as assert from 'assert';
+import { SYSTEM_RESOURCE_2 } from './definitions/constants';
 
 describe('LSP4Jakarta LS test for snippet test', () => {
 
@@ -38,8 +39,7 @@ describe('LSP4Jakarta LS test for snippet test', () => {
         await utils.delay(6000);
         assert(insertedCode.includes('public String methodname() {'), 'Snippet rest_class was not inserted correctly.');
 
-        await editor.clearText();
-        await editor.save();
+        await utils.closeEditor(SYSTEM_RESOURCE_2);
     }).timeout(475000);
 
     it('check for diagnostic support',  async() => {
@@ -70,11 +70,7 @@ describe('LSP4Jakarta LS test for snippet test', () => {
 
         assert(diagnostic.includes("Only public methods can be exposed as resource methods"), "Did not find diagnostic help text.");
 
-        // change back to original state
-        insertedCode = insertedCode.replace("private String", "public String");
-        await editor.clearText();
-        await editor.setText(insertedCode);
-        await utils.delay(4000);
+        await utils.closeEditor(SYSTEM_RESOURCE_2);
     }).timeout(475000);
 
     it('check for qucikfix support',  async() => {
@@ -115,11 +111,7 @@ describe('LSP4Jakarta LS test for snippet test', () => {
         assert(updatedContent.includes('public String methodname'), 'quick fix not applied correctly.');
         await utils.delay(6000);
 
-        // change back to original state
-        insertedCode = insertedCode.replace("private String", "public String");
-        await editor.clearText();
-        await editor.setText(insertedCode);
-        await utils.delay(4000);
+        await utils.closeEditor(SYSTEM_RESOURCE_2);
     }).timeout(475000);
 
 });

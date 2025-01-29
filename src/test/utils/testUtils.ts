@@ -1,7 +1,7 @@
 import path = require('path');
 import { Workbench, InputBox, DefaultTreeItem, ModalDialog } from 'vscode-extension-tester';
 import * as fs from 'fs';
-import { MAVEN_PROJECT, STOP_DASHBOARD_MAC_ACTION  } from '../definitions/constants';
+import { MAVEN_PROJECT, STOP_DASHBOARD_MAC_ACTION, CLOSE_EDITOR } from '../definitions/constants';
 import { MapContextMenuforMac } from './macUtils';
 import clipboard = require('clipboardy');
 import { expect } from 'chai';
@@ -191,5 +191,19 @@ export async function clearCommandPalette() {
   const buttons =  await dialog.getButtons();
   expect(buttons.length).equals(2);
   await dialog.pushButton('Clear');
+}
+
+export async function closeEditor(fileName: string) {
+  const workbench = new Workbench();
+  await workbench.openCommandPrompt();
+  await delay(3000);
+  await workbench.executeCommand(CLOSE_EDITOR);
+  await delay(3000);
+  const dialog = new ModalDialog();
+  const message = await dialog.getMessage();
+  expect(message).contains(fileName);
+  const buttons =  await dialog.getButtons();
+  expect(buttons.length).equals(3);
+  await dialog.pushButton('Don\'t Save');
 }
   
