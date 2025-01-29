@@ -41,4 +41,5 @@ export const  MAVEN_DEVMODE_DEBUG_PORT_PARM = "-DdebugPort";
 /** Gradle: Dev mode debug port argument key. */
 export const GRADLE_DEVMODE_DEBUG_PORT_PARM = "--libertyDebugPort";
 export const CLOSE_EDITOR = "View: Close Editor";
+export const SYSTEM_RESOURCE = "Do you want to save the changes you made to SystemResource.java?"
 export const SYSTEM_RESOURCE_2 = "Do you want to save the changes you made to SystemResource2.java?"

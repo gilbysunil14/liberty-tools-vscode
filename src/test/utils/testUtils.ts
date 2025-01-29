@@ -193,7 +193,7 @@ export async function clearCommandPalette() {
   await dialog.pushButton('Clear');
 }
 
-export async function closeEditor(fileName: string) {
+export async function closeEditor(text: string) {
   const workbench = new Workbench();
   await workbench.openCommandPrompt();
   await delay(3000);
@@ -201,7 +201,7 @@ export async function closeEditor(fileName: string) {
   await delay(3000);
   const dialog = new ModalDialog();
   const message = await dialog.getMessage();
-  expect(message).contains(fileName);
+  expect(message).contains(text);
   const buttons =  await dialog.getButtons();
   expect(buttons.length).equals(3);
   await dialog.pushButton('Don\'t Save');
